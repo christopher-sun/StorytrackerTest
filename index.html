@@ -1,0 +1,121 @@
+<!-- A BUNCH OF STUFF I WAS TESTING - IGNORE IT FOR NOW -->
+<!-- <html>
+  <head>
+    <meta charset='utf-8'>
+    <title>A-Frame Hyper Link Component - Hyper Link</title>
+    <script src="../build.js"></script>
+    <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <a-entity position="0 1.8 4">
+        <a-camera id="camera" look-controls wasd-controls> -->
+          <!-- <a-cursor color="#4CC3D9"></a-cursor> -->
+          <!--<a-ring radius-outer="0.30" radius-inner="0.20"
+            position="0 0 -3"
+            material="color: cyan; shader: flat"
+            cursor="maxDistance: 30; fuse: true">
+            <a-animation begin="click" easing="ease-in" attribute="scale"
+              fill="backwards" from="0.1 0.1 0.1" to="1 1 1" dur="150"></a-animation>
+            <a-animation begin="fusing" easing="ease-in" attribute="scale"
+              fill="forwards" from="1 1 1" to="0.1 0.1 0.1" dur="1500"></a-animation>
+          </a-ring>
+        </a-camera>
+    </a-entity> -->
+
+      <!-- Object 1 open url directly -->
+      <!--<a-box id="orange-cube" position="-3.5 3.5 -2" rotation="30 30 0" width="2" depth="2"
+        height="2" color="#F16745" roughness="0.8" href="https://github.com/gasolin/aframe-href-component">
+      </a-box>
+      <a-plane id="shadow" position="-3.5 0 -2" color="orange" opacity="0.5" rotation="-90 0 0"
+        scale="2 2 2"></a-plane>-->
+
+      <!-- Object 2 open url in new window -->
+      <!--<a-sphere id="blue-cube" position="3.5 3.5 -2" rotation="30 30 0" radius="2"
+        color="blue" roughness="0.8" href="http://aframe.io/" target="_blank">
+      </a-sphere>
+      <a-plane id="shadow2" position="3.5 0 -2" color="blue" opacity="0.5" rotation="-90 0 0"
+        scale="2 2 2"></a-plane> -->
+
+      <!-- <a-sky color="#ECECEC"></a-sky> -->
+    <!--</a-scene>
+  </body>
+</html>-->
+
+<!-- THE ACTUAL CODE -->
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title>A-Frame Hyper Link Component - Hyper Link</title>
+  <script src="../build.js"></script>
+  <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
+  <script src="../resources/lib/three/three.min.js"></script>
+  <!--<script src="../resources/lib/argon.min.js"></script>-->
+  <!-- <meta name="keywords" content="argon, augmented reality, web, javascript"> -->
+  <!-- <meta http-equiv="origin-trial" data-feature="WebVR" data-expires="2017-06-06" content="ArfXzMSluPfAfoVDD+ne9oWykUyDeLFD/z4/0uRCdZ1491aSrytWyj7gnGhwK1/Tzg/D+UOvNgD2+L9PWqF5XwwAAABceyJvcmlnaW4iOiJodHRwczovL2FyZ29uanMuaW86NDQzIiwiZmVhdHVyZSI6IldlYlZSIiwiZXhwaXJ5IjoxNDk2NzcxODA0LCJpc1N1YmRvbWFpbiI6dHJ1ZX0=">
+  <script src="../resources/lib/three/three.min.js"></script> -->
+  <script src="https://unpkg.com/@argonjs/argon@^1.3.3/dist/argon.js"></script>
+  <!-- <script src="../resources/lib/CSS3DArgonRenderer.js"></script>
+  <script src="../resources/lib/CSS3DArgonHUD.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css"> -->
+</head>
+<body>
+<a-scene>
+    <a-entity position="0 .6 4">
+        <a-camera>
+            <!-- The blue ring cursor -->
+            <a-entity id="mycursor" cursor="fuse: true; fuseTimeout: 500; max-distance: 30;"
+            position="0 0 -5"
+            geometry="primitive: ring"
+            material="color: blue; shader: flat">
+            </a-entity>
+        </a-camera>
+    </a-entity>
+
+    <!-- "button" / the Red Box -->
+    <a-entity id="refresh-button" geometry="primitive: box" material="color: red" position="0 0 -2"></a>
+</a-scene>
+
+<!-- The event when box centered in cursor -->
+<script>
+    document.querySelector('#refresh-button').addEventListener('click', function() {
+        // Refresh stuff would go here!
+        var geolocation = window.prompt("GIVE ME YOUR LOCATION", "0.50");
+        console.log(geolocation);
+
+
+    });
+</script>
+
+<div id="argon"></div>
+<script src="./app.js"></script>
+</body>
+
+<script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
+<!-- include ar.js for A-Frame -->
+<script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
+<body style='margin : 0px; overflow: hidden;'>
+  <a-scene embedded arjs>
+    <!-- create your content here. just a box for now -->
+    <a-box position='0 0.5 0' material='opacity: 0.5;'></a-box>
+    <!-- define a camera which will move according to the marker position -->
+    <!-- <a-marker-camera preset='hiro'></a-marker-camera> -->
+  </a-scene>
+</body>
+<script>
+    function hideMe(elem) {
+        elem.style.display = 'none';
+    }
+</script>  <script src="./app.js"></script>
+
+<!-- THIS IS SUPPOSED TO SHOW THE YELLOW ARGON BUBBLE IN BOTTOM RIGHT SO I CAN OPEN IN ARGON -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-63191442-2', 'auto');
+ga('send', 'pageview');
+</script>
+</html>
