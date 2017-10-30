@@ -336,6 +336,9 @@ app.view.uiEvent.addEventListener(function (evt) {
                         if (INTERSECTED)
                             INTERSECTED.material.color.setHex(INTERSECTED.currentHex);
                         INTERSECTED = null;
+                        //should create prompt
+                        var geolocation = prompt("GIVE ME YOUR LOCATION", "0.50");
+                        console.log(geolocation);
                     }
                 }
             }

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js webgl - interactive cubes</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				font-family: Monospace;
+				background-color: #f0f0f0;
+				margin: 0px;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="argon-immersive-context"></div>
+
+		<script src="./js/vendor/three.js"></script>
+		<script src="./js/vendor/threestrap.js"></script>
+		<script src="./js/argon.js"></script>
+		<script src="./js/argon-three.js"></script>
+
+		<script src="js/vendor/stats.min.js"></script>
+
+		<script>
+			var container, stats;
+			var camera, scene, raycaster, renderer;
+			var mouse = new THREE.Vector2(), INTERSECTED;
+			var radius = 100, theta = 0;
+			init();
+			function init() {
+				// Setup the context, renderer and scene options using Argon and threeStrap
+				container = Argon.immersiveContext;
+				options = THREE.Bootstrap.createArgonOptions( container );
+				three = THREE.Bootstrap( options );
+				var light = new THREE.DirectionalLight( 0xffffff, 1 );
+				light.position.set( 1, 1, 1 ).normalize();
+				three.scene.add( light );
+
+				var geometry = new THREE.BoxGeometry( 20, 20, 20 );
+				for ( var i = 0; i < 2000; i ++ ) {
+					var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
+					object.position.x = Math.random() * 800 - 400;
+					object.position.y = Math.random() * 800 - 400;
+					object.position.z = Math.random() * 800 - 400;
+					object.rotation.x = Math.random() * 2 * Math.PI;
+					object.rotation.y = Math.random() * 2 * Math.PI;
+					object.rotation.z = Math.random() * 2 * Math.PI;
+					// object.position.x = 200;
+					// object.position.y = 300;
+					// object.position.z = 200;
+					object.scale.x = Math.random() + 0.5;
+					object.scale.y = Math.random() + 0.5;
+					object.scale.z = Math.random() + 0.5;
+					// object.scale.x = 1;
+					// object.scale.y = 1;
+					// object.scale.z = 1;
+					three.scene.add( object );
+				}
+				raycaster = new THREE.Raycaster();
+				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+				//
+				//window.addEventListener( 'resize', onWindowResize, false );
+				document.addEventListener('touchmove', onDocumentTouchMove, false );
+			}
+			function onWindowResize() {
+				//camera.aspect = window.innerWidth / window.innerHeight;
+				//camera.updateProjectionMatrix();
+				//renderer.setSize( window.innerWidth, window.innerHeight );
+			}
+
+			//On every frame/when mouse moves
+			function onDocumentMouseMove( event ) {
+				event.preventDefault();
+				mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+				mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+			}
+
+			function onDocumentTouchMove( e ) {
+
+				if (!e)
+					var e = event;
+				if (e.touches) {
+					if (e.touches.length == 1) { // Only deal with one finger
+						var touch = e.touches[0]; // Get the information for finger #1
+						mouse.x = ( touch.pageX / window.innerWidth ) * 2 - 1;
+						mouse.y = -( touch.pageY / window.innerHeight ) * 2 + 1;
+						var geolocation = window.prompt("GIVE ME YOUR LOCATION", "0.50");
+				        console.log(geolocation);
+					}
+				}
+				event.preventDefault();
+			}
+
+			//
+			function animate() {
+
+			}
+			function render() {
+				// find intersections
+				raycaster.setFromCamera( mouse, three.camera );
+				var intersects = raycaster.intersectObjects( three.scene.children );
+				if ( intersects.length > 0 ) {
+					if ( INTERSECTED != intersects[ 0 ].object ) {
+						if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+						INTERSECTED = intersects[ 0 ].object;
+						INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
+						INTERSECTED.material.emissive.setHex( 0xff0000 );
+					}
+				} else {
+					if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+					INTERSECTED = null;
+				}
+				//renderer.render( scene, camera );
+			}
+
+			three.on('update', function(event) {
+				//requestAnimationFrame( animate );
+				render();
+				//stats.update();
+			});
+		</script>
+
+	</body>
+</html>
